@@ -1,0 +1,45 @@
+package main
+
+import "fmt"
+import "time"
+var shared = 0
+func main() {
+   var x int = 30
+   var y = 10
+   fmt.Println("x is", x, ", y is", y)
+   for x> 25 {
+       fmt.Println("Really a while loop")
+       x--
+   }
+   x, y = swap_by_value(x, y)
+   fmt.Println("x is", x, ", y is", y)
+   swap_by_reference(&x, &y)
+   fmt.Println("x is", x, ", y is", y)
+   a := make(chan int)
+   go incr(a)
+   go incr(a)
+   time.Sleep(5 *time.Second)
+   result := <- a
+   fmt.Println(result)
+}
+func swap_by_value(x int, y int) (int, int) {
+    return y, x
+}
+func swap_by_reference(x *int, y *int) {
+    var temp = *x
+    *x = *y
+    *y = temp
+}
+func incr (a chan int) {
+    
+    for i :=0; i<100000; i++ {
+        if (shared == 0) {
+            shared++
+            a <- shared
+        } else {
+            shared = <-a
+            shared++
+            a <- shared
+        }
+    }
+}
