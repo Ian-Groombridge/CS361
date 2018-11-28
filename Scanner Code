@@ -140,13 +140,13 @@ public class TokenStream {
 			if (isKeyword(t.getValue()))
 				t.setType("Keyword");
 			if (isBooleanLiteral(t.getValue()))
-				t.setType("Boolean-Literal");
+				t.setType("Literal");
 			if (isEndOfToken(nextChar)) // If token is valid, returns.
 				return t;
 		}
 
 		if (isDigit(nextChar)) { // check for integers
-			t.setType("Integer-Literal");
+			t.setType("Literal");
 			while (isDigit(nextChar)) {
 				t.setValue(t.getValue() + nextChar);
 				nextChar = readChar();
